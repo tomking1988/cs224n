@@ -95,9 +95,21 @@ def make_windowed_data(data, start, end, window_size = 1):
     """
 
     windowed_data = []
+
+    def merge_lists(lists):
+        return reduce((lambda x, y: x + y), lists)
     for sentence, labels in data:
     ### YOUR CODE HERE (5-20 lines)
-
+        ### insert head and tail
+        extended_sentence = list(sentence)
+        for i in range(window_size):
+            extended_sentence.insert(0, start)
+            extended_sentence.append(end)
+        for index in range(window_size, len(extended_sentence) - window_size):
+            window_words = extended_sentence[index - window_size: index + window_size + 1]
+            reduced_words = merge_lists(window_words)
+            label = labels[index - window_size]
+            windowed_data.append((reduced_words, label))
     ### END YOUR CODE
     return windowed_data
 
