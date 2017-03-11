@@ -77,6 +77,7 @@ class NERModel(Model):
     def run_epoch(self, sess, train_examples, dev_set, train_examples_raw, dev_set_raw):
         prog = Progbar(target=1 + int(len(train_examples) / self.config.batch_size))
         for i, batch in enumerate(minibatches(train_examples, self.config.batch_size)):
+
             loss = self.train_on_batch(sess, *batch)
             prog.update(i + 1, [("train loss", loss)])
             if self.report: self.report.log_train_loss(loss)
